@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+    <input id="title" type="text" placeholder="title"><br><br>
+    <input id="description" type="text" placeholder="description"><br><br>
+    <div id="container">
+        
+    </div>
+    <script>
+
+        function createChild(title, description, id) {
+        const child = document.createElement("div")
+
+        const grandchildTitle = document.createElement("div");
+        grandchildTitle.innerHTML = title;
+        const grandchildDesc = document.createElement("div");
+        grandchildDesc.innerHTML = description;
+        const grandchildButton = document.createElement("button");
+        grandchildButton.innerHTML = "Complete ToDo"
+        grandchildButton.setAttribute("onclick", `doneTodo(${id})`)
+        child.appendChild(grandchildTitle);
+        child.appendChild(grandchildDesc);
+        child.appendChild(grandchildButton);
+        child.setAttribute("id", id);
+
+        return child;
+    }
+
+    function updateTodoAccToState(state) {
+            const parent = document.getElementById("conatiner")
+            parent.innerHTML = "";
+            for(let i=0; i<state.length; i++) {
+                const child = createChild(state[i].title, state[i].description, state[i].id);
+                parent.appendChild(child);
+            }
+        }   
+        window.setInterval(async function() {
+            const res = await fetch("http://localhost:3020/todos")
+            const jsonData = await res.json();
+            updateTodoAccToState(jsonData.todos);
+        }, 3000)
+
+
+
+// in memory STATE database
+       /* updateTodoAccToState([{
+            title: "goo to gym ",
+            description: "gym to 5 to 8 pm",
+            id: 1
+        },{
+            title: "goo to gym2 ",
+            description: "gym to 5 to 8 pm",
+            id: 2
+        },{
+            title: "goo to gym3 ",
+            description: "gym to 5 to 8 pm",
+            id: 3
+        }]); */
+    </script>
+</body>
+</html>

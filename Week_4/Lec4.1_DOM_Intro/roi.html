@@ -5,21 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    #finalInterest {
+        font-size: 1.5em;
+        color: blueviolet;
+    }
+</style>
 <script lang="javascript">
+    let x;
+
+    function debounce(){
+        clearTimeout(x)
+        x = setTimeout( () =>{
+            calInterest()
+        },100)
+        
+    }
     async function calInterest() {
         const p = document.getElementById('principal').value;
         const r = document.getElementById('rate').value;
         const t = document.getElementById('time').value;
         const response = await fetch("http://localhost:3014/interest?p="+p+"&r="+r+"&t="+t);
         const ans = await response.text();
-        document.getElementById('finalInterest').innerHTML = ans;
+        document.getElementById('finalInterest').innerHTML = `ROI is: ${ans}`;
+        
     }
 
 </script>
 <body>
-    <input type="text" placeholder="Enter principal" id="principal"><br><br>
-    <input type="text" placeholder="Enter Rate" id="rate"><br><br>
-    <input type="text" placeholder="Enter time" id="time"><br><br>
+    <input oninput="debounce()" type="text" placeholder="Enter principal" id="principal"><br><br>
+    <input oninput="debounce()" type="text" placeholder="Enter Rate" id="rate"><br><br>
+    <input oninput="debounce()" type="text" placeholder="Enter time" id="time"><br><br>
 
     <button onclick="calInterest()" id="calculateROI">Calculte ROI</button>
     <div id="finalInterest"></div>

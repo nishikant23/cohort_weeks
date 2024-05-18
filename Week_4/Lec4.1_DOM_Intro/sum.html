@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rate_Of_Interest-Calculator</title>
 </head>
+<style>
+    #finalSum {
+        font-size: 1.5em;
+        color: blueviolet;
+    }
+</style>
 <script lang="javascript" text="javascript">
-
+    let holdManiFunct;
     function debouncePopulateDiv() {
-        const holdManiFunct = setTimeout(function() {
+        clearTimeout(holdManiFunct);
+        holdManiFunct = setTimeout(function() {
             populateDiv();
         }, 100)
-        clearTimeout(holdManiFunct);
+        
     }
     
     async function populateDiv() {   //main function of action/logic
@@ -23,7 +30,7 @@
         //console.log("Response: ", response)
         const output = await response.text()
         //console.log("Output: ", output)
-        document.getElementById('finalSum').innerHTML = output
+        document.getElementById('finalSum').innerHTML = `Result: ${output}`
 
     }
 
